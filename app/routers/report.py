@@ -23,3 +23,18 @@ async def send_weekly_report(project_id: int, db: Session = Depends(get_db)):
 
     await send_report_email(report["markdown"])
     return {"message": "Report sent via email"}
+
+
+from fastapi import APIRouter
+from app.utils.send_outlook import send_outlook_email
+
+router = APIRouter()
+
+@router.get("/send-outlook-report")
+def send_report():
+    subject = "📊 Weekly Project Report"
+    body = "Your weekly project report is attached."
+    manager_email = "manager@example.com"
+
+    send_outlook_email(subject, body, manager_email)
+    return {"message": "Outlook email sent successfully!"}
